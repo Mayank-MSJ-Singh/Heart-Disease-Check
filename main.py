@@ -1,9 +1,10 @@
 import pickle
 import streamlit as st
 
+#Loading Model Here
 model = pickle.load(open('model.pkl', 'rb'))
 
-
+#Making Streamlit Widgets
 name = st.text_area(label="Your Name")
 age = st.text_area(label="Age")
 rbp = st.text_area(label="RestingBP")
@@ -17,6 +18,7 @@ cpt = st.selectbox("Chest Pain Type",('ATA', 'NAP', 'ASY', 'TA'))
 r_ecg = st.selectbox("Resting ECG",('Normal', 'ST', 'LVH'))
 sex = st.selectbox("Sex",('Male', 'Female'))
 
+#Main Processing
 try:
     if st.button("Check"):
         with st.spinner():
@@ -48,11 +50,12 @@ try:
             if slope == "Down":
                 down += 1
 
+            #Prediction
             y_pred = model.predict([[float(age), float(rbp), float(ch), float(fbs), float(mhr), float(ea), float(op), lvh, str, asy, ata, nap, down, up, female]])
 
+            #Results
             st.markdown("### Results")
             if y_pred == 1:
-
                 st.write("Sorry to Inform You But You Have Heart Problem, You should consult to a Doctor As Soon As Possible")
             else:
                 st.write("Bingo! You are Perfectly Fine. No need to worry!")
