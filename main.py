@@ -17,8 +17,8 @@ cpt = st.selectbox("Chest Pain Type",('ATA', 'NAP', 'ASY', 'TA'))
 r_ecg = st.selectbox("Resting ECG",('Normal', 'ST', 'LVH'))
 sex = st.selectbox("Sex",('Male', 'Female'))
 
-#try:
-if st.button("Check"):
+try:
+    if st.button("Check"):
         with st.spinner():
             female = 0
             lvh = 0
@@ -49,9 +49,12 @@ if st.button("Check"):
                 down += 1
 
             y_pred = model.predict([[float(age), float(rbp), float(ch), float(fbs), float(mhr), float(ea), float(op), lvh, str, asy, ata, nap, down, up, female]])
+
+            st.markdown("### Results")
             if y_pred == 1:
-                st.write("Yes")
+
+                st.write("Sorry to Inform You But You Have Heart Problem, You should consult to a Doctor As Soon As Possible")
             else:
-                st.write("No")
-#except:
-#    st.write("First Enter Details")
+                st.write("Bingo! You are Perfectly Fine. No need to worry!")
+except:
+    st.write("### First Enter Details")
